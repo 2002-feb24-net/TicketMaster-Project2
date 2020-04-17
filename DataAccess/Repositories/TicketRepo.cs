@@ -8,7 +8,7 @@ using DataAccess.Interfaces;
 
 namespace DataAccess.Repositories
 {
-    public class TicketRepo : ITicketRepo
+    public class TicketRepo //: ITicketRepo
     {
         private readonly TicketContext _dbContext;
         private readonly ILogger<TicketRepo> _logger;
