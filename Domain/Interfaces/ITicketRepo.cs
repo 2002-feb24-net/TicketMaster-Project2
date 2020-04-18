@@ -1,10 +1,10 @@
-﻿using DataAccess.Entities;
+﻿using Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DataAccess.Interfaces
+namespace Domain.Interfaces
 {
     /// <summary>
     /// A repository managing data access for Users, Admins, Tickets, and Comment objects.
@@ -144,7 +144,7 @@ namespace DataAccess.Interfaces
         /// Search all tickets by datetime.
         /// </summary>
         /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTicketsByDatetime(string datetime);
+        //IEnumerable<Tickets> GetTicketsByDatetime(string datetime);
 
         /// <summary>
         /// Add a comment to an existing ticket, and associate it with a administrator.

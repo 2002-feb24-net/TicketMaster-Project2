@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{17FAE326-3BEE-440B-829A-D0CBC231ABD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "REST-Api", "REST-Api\REST-Api.csproj", "{0BF6FEC8-3F4A-4D9E-B9F6-43E28B728D7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "REST-Api", "REST-Api\REST-Api.csproj", "{0BF6FEC8-3F4A-4D9E-B9F6-43E28B728D7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{B1EB500B-80FB-4019-B092-F499DA74D57E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{0BF6FEC8-3F4A-4D9E-B9F6-43E28B728D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BF6FEC8-3F4A-4D9E-B9F6-43E28B728D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BF6FEC8-3F4A-4D9E-B9F6-43E28B728D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1EB500B-80FB-4019-B092-F499DA74D57E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1EB500B-80FB-4019-B092-F499DA74D57E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1EB500B-80FB-4019-B092-F499DA74D57E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1EB500B-80FB-4019-B092-F499DA74D57E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
