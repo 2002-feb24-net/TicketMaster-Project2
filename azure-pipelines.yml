@@ -32,12 +32,12 @@ jobs:
   #    testResultsFiles: '**/*.trx'
   #  displayName: Publish test results to build
 
-  # - task: DotNetCoreCLI@2
-  #   inputs:
-  #     command: 'publish'
-  #     publishWebProjects: true
-  #     zipAfterPublish: true
-  #   displayName: dotnet publish + zip
+  - task: DotNetCoreCLI@2
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      zipAfterPublish: true
+    displayName: dotnet publish + zip
 
   # - task: AzureRmWebAppDeployment@4
   #   inputs:
