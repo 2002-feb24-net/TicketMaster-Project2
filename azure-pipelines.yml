@@ -32,17 +32,17 @@ jobs:
   #    testResultsFiles: '**/*.trx'
   #  displayName: Publish test results to build
 
-  - task: DotNetCoreCLI@2
-    inputs:
-      command: 'publish'
-      publishWebProjects: true
-      zipAfterPublish: true
-    displayName: dotnet publish + zip
+  # - task: DotNetCoreCLI@2
+  #   inputs:
+  #     command: 'publish'
+  #     publishWebProjects: true
+  #     zipAfterPublish: true
+  #   displayName: dotnet publish + zip
 
-  - task: AzureRmWebAppDeployment@4
-    inputs:
-      ConnectionType: 'AzureRM'
-      azureSubscription: 'Azure subscription 1(22b40f46-2528-4e02-a63d-ea3ba634e32d)'
-      appType: 'webApp'
-      WebAppName: 'TicketMasterProject'
-      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+  # - task: AzureRmWebAppDeployment@4
+  #   inputs:
+  #     ConnectionType: 'AzureRM'
+  #     azureSubscription: 'Azure subscription 1(22b40f46-2528-4e02-a63d-ea3ba634e32d)'
+  #     appType: 'webApp'
+  #     WebAppName: 'TicketMasterProject'
+  #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
