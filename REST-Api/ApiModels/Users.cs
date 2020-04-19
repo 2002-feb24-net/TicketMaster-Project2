@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace REST_Api.ViewModels
+namespace REST_Api.ApiModels
 {
-    public partial class Users
+    public class Users
     {
-        public Users()
-        {
-            Tickets = new HashSet<Tickets>();
-        }
 
         public int Id { get; set; }
         public string FirstName { get; set; }
@@ -16,10 +12,9 @@ namespace REST_Api.ViewModels
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public int PhoneNumber { get; set; }
+        public long PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
 
-        public virtual ICollection<Tickets> Tickets { get; set; }
     }
 }

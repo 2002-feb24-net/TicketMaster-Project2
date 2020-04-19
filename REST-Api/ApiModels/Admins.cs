@@ -1,16 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace REST_Api.ViewModels
+namespace REST_Api.ApiModels
 {
-    public partial class Admins
+    public class Admins
     {
-        public Admins()
-        {
-            Comments = new HashSet<Comments>();
-            Tickets = new HashSet<Tickets>();
-        }
-
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -19,7 +13,5 @@ namespace REST_Api.ViewModels
         public string CurrentTicket { get; set; }
         public int SupportLevel { get; set; }
 
-        public virtual ICollection<Comments> Comments { get; set; }
-        public virtual ICollection<Tickets> Tickets { get; set; }
     }
 }

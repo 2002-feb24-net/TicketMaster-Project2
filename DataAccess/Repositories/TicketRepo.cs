@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Domain.Interfaces;
 using Domain.Models;
 using DataAccess;
+using System.Threading.Tasks;
 
 namespace REST_Api.Repositories
 {
@@ -26,24 +27,24 @@ namespace REST_Api.Repositories
         /// Get all users with deferred execution.
         /// </summary>
         /// <returns>The collection of users</returns>
-        public IEnumerable<Domain.Models.Users> GetUsers(string search = null)
+        public async Task<IEnumerable<Domain.Models.Users>> GetUsersAsync(string search = null)
         {
-            IEnumerable<DataAccess.Entities.Users> items = _dbContext.Users
+            IQueryable<DataAccess.Entities.Users> items = _dbContext.Users
                 .AsNoTracking();
 
-            items = items.Where(u => u.LastName.Contains(search)).AsEnumerable();
+            var list = await items.Where(u => u.LastName.Contains(search)).ToListAsync();
 
-            return items.Select(Mapper.MapUsers);
+            return list.Select(Mapper.MapUsers);
         }
 
         /// <summary>
         /// Get a user by ID.
         /// </summary>
         /// <returns>The user</returns>
-        public Domain.Models.Users GetUserById(int userId)
+        public async Task<Domain.Models.Users> GetUserByIdAsync(int userId)
         {
-            DataAccess.Entities.Users item = _dbContext.Users
-                .FirstOrDefault(u => u.Id == userId);
+            DataAccess.Entities.Users item = await _dbContext.Users
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             return Mapper.MapUsers(item);
         }
