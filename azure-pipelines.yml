@@ -39,10 +39,10 @@ jobs:
       zipAfterPublish: true
     displayName: dotnet publish + zip
 
-  # - task: AzureRmWebAppDeployment@4
-  #   inputs:
-  #     ConnectionType: 'AzureRM'
-  #     azureSubscription: 'Azure subscription 1(34c1f765-2be7-443c-b6cc-1dfb59828d08)'
-  #     appType: 'webApp'
-  #     WebAppName: 'TicketMasterProject'
-  #     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+  - task: AzureRmWebAppDeployment@4
+    inputs:
+      ConnectionType: 'AzureRM'
+      azureSubscription: 'Azure subscription 1(34c1f765-2be7-443c-b6cc-1dfb59828d08)'
+      appType: 'webApp'
+      WebAppName: 'TicketMasterProject'
+      packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
