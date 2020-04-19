@@ -3,15 +3,61 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public partial class Comments
+    public class Comments
     {
-        public int Id { get; set; }
-        public int TicketId { get; set; }
-        public string Comment { get; set; }
-        public DateTime? Datetime { get; set; }
-        public int? AdminId { get; set; }
+        private int _ticketId;
+        private string _comment;
+        private DateTime? _datetime;
+        private int? _adminId;
 
-        public virtual Admins Admin { get; set; }
-        public virtual Tickets Ticket { get; set; }
+        public int Id { get; set; }
+        public int TicketId
+        {
+            get => _ticketId;
+            set
+            {
+                if (value == 0)
+                {
+                    throw new ArgumentException("You must enter a valid TicketId", nameof(value));
+                }
+                _ticketId = value;
+            }
+        }
+        public string Comment
+        {
+            get => _comment;
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Comment must not be empty.", nameof(value));
+                }
+                _comment = value;
+            }
+        }
+        public DateTime? Datetime
+        {
+            get => _datetime;
+            set
+            {
+                if (value == null)
+                {
+                    throw new ArgumentException("Datetime must not be empty.", nameof(value));
+                }
+                _datetime = value;
+            }
+        }
+        public int? AdminId
+        {
+            get => _adminId;
+            set
+            {
+                if (value == 0)
+                {
+                    throw new ArgumentException("You must enter a valid AdminId", nameof(value));
+                }
+                _adminId = value;
+            }
+        }
     }
 }

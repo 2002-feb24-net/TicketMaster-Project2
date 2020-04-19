@@ -3,23 +3,77 @@ using System.Collections.Generic;
 
 namespace Domain.Models
 {
-    public partial class Users
+    public class Users
     {
-        public Users()
-        {
-            Tickets = new HashSet<Tickets>();
-        }
+        private string _firstName;
+        private string _lastName;
+        private string _email;
+        private string _password;
+        private long _phoneNumber;
 
         public int Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+        public string FirstName
+        {
+            get => _firstName;
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Name must not be empty.", nameof(value));
+                }
+                _firstName = value;
+            }
+        }
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Name must not be empty.", nameof(value));
+                }
+                _lastName = value;
+            }
+        }
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public int PhoneNumber { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-
-        public virtual ICollection<Tickets> Tickets { get; set; }
+        public long PhoneNumber
+        {
+            get => _phoneNumber;
+            set
+            {
+                if (value > 9999999999 || value < 999999999)
+                {
+                    throw new ArgumentException("You must enter a valid phone number.", nameof(value));
+                }
+                _phoneNumber = value;
+            }
+        }
+        public string Email
+        {
+            get => _email;
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Email must not be empty.", nameof(value));
+                }
+                _email = value;
+            }
+        }
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (value.Length == 0)
+                {
+                    throw new ArgumentException("Password must not be empty.", nameof(value));
+                }
+                _password = value;
+            }
+        }
     }
 }

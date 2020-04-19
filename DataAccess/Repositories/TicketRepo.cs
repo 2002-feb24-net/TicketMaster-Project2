@@ -193,6 +193,7 @@ namespace REST_Api.Repositories
         public IEnumerable<Domain.Models.Tickets> GetTickets(string search = null)
         {
             IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(a => a.Title.Contains(search)).AsEnumerable();
@@ -207,6 +208,7 @@ namespace REST_Api.Repositories
         public Domain.Models.Tickets GetTicketById(int ticketId)
         {
             DataAccess.Entities.Tickets item = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .FirstOrDefault(t => t.Id == ticketId);
 
             return Mapper.MapTickets(item);
@@ -264,6 +266,7 @@ namespace REST_Api.Repositories
         public IEnumerable<Domain.Models.Tickets> GetTicketsByUserId(int userId)
         {
             IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.UserId == userId).AsEnumerable();
@@ -279,6 +282,7 @@ namespace REST_Api.Repositories
         public IEnumerable<Domain.Models.Tickets> GetTicketsByAdminId(int adminId)
         {
             IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.AdminId == adminId).AsEnumerable();
@@ -294,6 +298,7 @@ namespace REST_Api.Repositories
         public IEnumerable<Domain.Models.Tickets> GetTicketsByStoreId(int storeId)
         {
             IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.StoreId == storeId).AsEnumerable();
@@ -308,6 +313,7 @@ namespace REST_Api.Repositories
         public IEnumerable<Domain.Models.Tickets> GetTicketsByText(string search)
         {
             IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.Title.Contains(search) 
@@ -330,19 +336,35 @@ namespace REST_Api.Repositories
         /// </summary>
         /// <param name="comment">The comment</param>
         /// <param int="ticketId">The id of the ticket</param>
-        public void AddComment(Domain.Models.Comments comment, int ticketId)
+        public void AddComment(Domain.Models.Comments comment, Domain.Models.Tickets ticket)
         {
             if (comment.Id != 0)
             {
                 _logger.LogWarning("Comment to be added has an ID ({commentId}) already: ignoring.", comment.Id);
             }
 
-            _logger.LogInformation("Adding comment");
+            _logger.LogInformation("Adding comment to ticket with ID {ticketId}", ticket.Id);
 
-            var entity = Mapper.MapComments(comment);
+            if (ticket != null)
+            {
 
-            entity.Id = 0;
-            _dbContext.Comments.Add(entity);
+                DataAccess.Entities.Tickets ticketEntity = _dbContext.Tickets
+                    .Include(c => c.Comments)
+                    .First(t => t.Id == ticket.Id);
+                DataAccess.Entities.Comments newEntity = Mapper.MapComments(comment);
+                ticketEntity.Comments.Add(newEntity);
+  
+                ticket.Comments.Add(comment);
+            }
+            else
+            {
+                var entity = Mapper.MapComments(comment);
+
+                entity.Id = 0;
+                _dbContext.Comments.Add(entity);
+            }
+
+            
         }
 
         /// <summary>
