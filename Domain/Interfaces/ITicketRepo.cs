@@ -15,13 +15,13 @@ namespace Domain.Interfaces
         /// Get all users with deferred execution.
         /// </summary>
         /// <returns>The collection of users</returns>
-        IEnumerable<Users> GetUsers(string search = null);
+        Task<IEnumerable<Users>> GetUsersAsync(string search = null);
 
         /// <summary>
         /// Get a user by ID.
         /// </summary>
         /// <returns>The user</returns>
-        Users GetUserById(int userId);
+        Task<Users> GetUserByIdAsync(int userId);
 
         /// <summary>
         /// Add a useer.
