@@ -151,7 +151,7 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="comment">The comment</param>
         /// <param int="ticketId">The if of the ticket</param>
-        void AddComment(Comments comment, int ticketId);
+        void AddComment(Comments comment, Tickets ticket);
 
         /// <summary>
         /// Delete a comment by ID.

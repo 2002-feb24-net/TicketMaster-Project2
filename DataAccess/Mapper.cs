@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace DataAccess
@@ -88,6 +89,7 @@ namespace DataAccess
 
         /// <summary>
         /// Maps an Entity Framework ticket DAO to a business model,
+        /// including all comments if present.
         /// </summary>
         /// <param name="t">The ticket DAO.</param>
         /// <returns>The ticket business model.</returns>
@@ -107,13 +109,15 @@ namespace DataAccess
                 UserId = t.UserId,
                 AdminId = t.AdminId,
                 StoreId = t.StoreId,
-                Completed = t.Completed
+                Completed = t.Completed,
+                Comments = t.Comments.Select(MapComments).ToList()
             };
         }
 
 
         /// <summary>
         /// Maps a ticket business model to a DAO for Entity Framework,
+        /// including all comments if present.
         /// </summary>
         /// <param name="t">The ticket business model.</param>
         /// <returns>The ticket DAO.</returns>
@@ -133,7 +137,8 @@ namespace DataAccess
                 UserId = t.UserId,
                 AdminId = t.AdminId,
                 StoreId = t.StoreId,
-                Completed = t.Completed
+                Completed = t.Completed,
+                Comments = t.Comments.Select(MapComments).ToList()
             };
         }
 
