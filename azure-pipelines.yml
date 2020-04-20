@@ -10,7 +10,7 @@ stages:
 
   variables:
     sdkVersion: 3.1.x
-    solutionPath: Ticketmaster
+    solutionPath: TicketMaster
     buildConfiguration: Release
 
   jobs:
@@ -65,7 +65,7 @@ stages:
 
     - script: dotnet build
         --configuration $(buildConfiguration)
-      #workingDirectory: $(solutionPath)
+      workingDirectory: $(solutionPath)
       displayName: dotnet build
 
     - script: dotnet test
