@@ -43,40 +43,40 @@ stages:
       artifact: app
       displayName: artifact publish app
 
-  # - job: test
+  - job: test
 
-  #   pool:
-  #     vmImage: ubuntu-latest
+    pool:
+      vmImage: ubuntu-latest
 
-  #   steps:
+    steps:
 
-  #   - task: UseDotNet@2
-  #     inputs:
-  #       packageType: sdk
-  #       version: 2.1.x
-  #     displayName: dotnet 2.1.x
+    - task: UseDotNet@2
+      inputs:
+        packageType: sdk
+        version: 2.1.x
+      displayName: dotnet 2.1.x
 
 
-  #   - task: UseDotNet@2
-  #     inputs:
-  #       packageType: sdk
-  #       version: $(sdkVersion)
-  #     displayName: dotnet $(sdkVersion)
+    - task: UseDotNet@2
+      inputs:
+        packageType: sdk
+        version: $(sdkVersion)
+      displayName: dotnet $(sdkVersion)
 
-  #   - script: dotnet build
-  #       --configuration $(buildConfiguration)
-  #     workingDirectory: $(solutionPath)
-  #     displayName: dotnet build
+    - script: dotnet build
+        --configuration $(buildConfiguration)
+      workingDirectory: $(solutionPath)
+      displayName: dotnet build
 
-    # - script: dotnet test
-    #     --configuration $(buildConfiguration)
-    #     --logger trx
-    #     --no-build
-    #     --results-directory $(Common.TestResultsDirectory)
-    #     --settings coverlet.runsettings
-    #   workingDirectory: $(solutionPath)
-    #   continueOnError: true
-    #   displayName: dotnet test
+    - script: dotnet test
+        --configuration $(buildConfiguration)
+        --logger trx
+        --no-build
+        --results-directory $(Common.TestResultsDirectory)
+        --settings coverlet.runsettings
+      workingDirectory: $(solutionPath)
+      continueOnError: true
+      displayName: dotnet test
 
 
 
