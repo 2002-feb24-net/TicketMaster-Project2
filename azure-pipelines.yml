@@ -65,7 +65,7 @@ stages:
 
     - script: dotnet build
         --configuration $(buildConfiguration)
-      workingDirectory: $(solutionPath)
+      #workingDirectory: $(solutionPath)
       displayName: dotnet build
 
     - script: dotnet test
