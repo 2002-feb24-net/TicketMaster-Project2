@@ -78,6 +78,19 @@ stages:
       continueOnError: true
       displayName: dotnet test
 
+    # - task: PublishTestResults@2
+    #   condition: succeededOrFailed()
+    #   inputs:
+    #     testRunner: VSTest
+    #     testResultsFiles: $(Common.TestResultsDirectory)/*.trx
+    #   displayName: test results build publish
+
+    # - task: PublishCodeCoverageResults@1
+    #   condition: succeededOrFailed()
+    #   inputs:
+    #     codeCoverageTool: Cobertura
+    #     summaryFileLocation: $(Common.TestResultsDirectory)/*/coverage.cobertura.xml
+    #   displayName: code coverage build publish
 
 
 - stage: deploy
@@ -106,10 +119,8 @@ stages:
             inputs:
               ConnectionType: AzureRM
               azureSubscription: 'Azure subscription 1(34c1f765-2be7-443c-b6cc-1dfb59828d08)'
-              appType: webApp
+              appType: apiApp
               WebAppName: 'project2apiforticketmaster'
               packageForLinux: '$(Pipeline.Workspace)/app'
             displayName: azure app service deploy
           
-
-
