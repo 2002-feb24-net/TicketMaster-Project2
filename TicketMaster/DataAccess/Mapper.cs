@@ -110,7 +110,7 @@ namespace DataAccess
                 AdminId = t.AdminId,
                 StoreId = t.StoreId,
                 Completed = t.Completed,
-                //Comments = t.Comments.Select(MapComments).ToList()
+                Comments = t.Comments.Select(MapComments).ToList()
             };
         }
 
@@ -173,6 +173,23 @@ namespace DataAccess
                 Comment = c.Comment,
                 Datetime = c.Datetime,
                 AdminId = c.AdminId
+            };
+        }
+
+        /// <summary>
+        /// Maps an Entity Framework store DAO to a business model,
+        /// </summary>
+        /// <param name="s">The store DAO.</param>
+        /// <returns>The store business model.</returns>
+        public static Domain.Models.Stores MapStores(Entities.Stores s)
+        {
+            return s is null ? null : new Domain.Models.Stores
+            {
+                Id = s.Id,
+                Address = s.Address,
+                City = s.City,
+                State = s.State,
+                PhoneNumber = s.PhoneNumber
             };
         }
 
