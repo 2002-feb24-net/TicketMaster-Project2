@@ -14,14 +14,14 @@ namespace DataAccess.Entities
         public string Title { get; set; }
         public string Category { get; set; }
         public DateTime DatetimeOpened { get; set; }
-        public DateTime DatetimeModified { get; set; }
+        public DateTime? DatetimeModified { get; set; }
         public DateTime? DatetimeClosed { get; set; }
         public DateTime? Deadline { get; set; }
         public int Priority { get; set; }
         public string Details { get; set; }
         public int UserId { get; set; }
         public int? AdminId { get; set; }
-        public int StoreId { get; set; }
+        public int? StoreId { get; set; }
         public string Completed { get; set; }
 
         public virtual Admins Admin { get; set; }

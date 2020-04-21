@@ -42,7 +42,7 @@ namespace REST_Api
             {
                 options.AddPolicy("AllowLocalAndAppServiceAngular", builder =>
                     builder.WithOrigins("https://2002-ng-notes-client.azurewebsites.net",
-                                        "http://localhost:4200")
+                                        "http://localhost:5000")
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
