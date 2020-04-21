@@ -37,7 +37,7 @@ namespace REST_Api.Controllers
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAdminsByIdAsync(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (await _repo.GetAdminByIdAsync(id) is Domain.Models.Admins user)
             {

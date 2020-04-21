@@ -102,10 +102,17 @@ namespace Domain.Interfaces
         Task<IEnumerable<Tickets>> GetTicketsAsync(string search = null);
 
         /// <summary>
-        /// Get a ticket by ID.
+        /// Get a ticket by id.
         /// </summary>
-        /// <returns>The ticket</returns>
-        Tickets GetTicketById(int ticketId);
+        /// <param int="id">The id of the user</param>
+        /// <returns>The tickets</returns>
+        Task<Tickets> GetTicketByIdAsync(int id);
+
+        /// <summary>
+        /// Get a ticket by user ID.
+        /// </summary>
+        /// <returns>The collection of tickets</returns>
+        Task<IEnumerable<Tickets>> GetTicketsByUserAsync(int userId);
 
         /// <summary>
         /// Add a ticket and associate it with a user.
@@ -123,40 +130,34 @@ namespace Domain.Interfaces
         /// Delete a ticket by ID.
         /// </summary>
         /// <param int="ticketId">The ID of the ticket</param>
-        void DeleteTicket(int ticketId);
-
-        /// <summary>
-        /// Get all tickets according to user Id.
-        /// </summary>
-        /// <param int="userId">The ID of the user</param>
-        /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTicketsByUserId(int userId);
+        void DeleteTicketAsync(int ticketId);
 
         /// <summary>
         /// Get all tickets according to administrator Id.
         /// </summary>
         /// <param int="adminId">The ID of the administrator</param>
         /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTicketsByAdminId(int adminId);
+        Task<IEnumerable<Tickets>> GetTicketsByAdminAsync(int adminId);
 
         /// <summary>
         /// Get all tickets according to store Id.
         /// </summary>
         /// <param int="storeId">The ID of the store</param>
         /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTicketsByStoreId(int storeId);
-
-        /// <summary>
-        /// Search all tickets by text string.
-        /// </summary>
-        /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTicketsByText(string search);
+        Task<IEnumerable<Tickets>> GetTicketsByStoreAsync(int storeId);
 
         /// <summary>
         /// Search all tickets by datetime.
         /// </summary>
         /// <returns>The collection of tickets</returns>
         //IEnumerable<Tickets> GetTicketsByDatetime(string datetime);
+
+        /// <summary>
+        /// Get a store by id.
+        /// </summary>
+        /// <param int="storeId">The ID of the store</param>
+        /// <returns>The store</returns>
+        Task<Stores> GetStoreByIdAsync(int storeId);
 
         /// <summary>
         /// Add a comment to an existing ticket, and associate it with a administrator.

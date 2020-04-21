@@ -162,7 +162,7 @@ namespace DataAccess.Repositories
         {
             _logger.LogInformation("Updating administrator with ID {adminId}", adminId);
 
-            DataAccess.Entities.Admins currentEntity = await _dbContext.Admins.FindAsync(adminId);
+            Entities.Admins currentEntity = await _dbContext.Admins.FindAsync(adminId);
             var newEntity = Mapper.MapAdmins(admin);
             newEntity.Id = adminId;
 
@@ -177,7 +177,7 @@ namespace DataAccess.Repositories
         public async void DeleteAdminAsync(int adminId)
         {
             _logger.LogInformation("Deleting administrator with ID {adminId}", adminId);
-            DataAccess.Entities.Admins entity = await _dbContext.Admins.FindAsync(adminId);
+            Entities.Admins entity = await _dbContext.Admins.FindAsync(adminId);
             _dbContext.Admins.Remove(entity);
         }
 
@@ -187,7 +187,7 @@ namespace DataAccess.Repositories
         /// <returns>The collection of administrators</returns>
         public async Task<IEnumerable<Domain.Models.Admins>> GetAdminsAsync(string search = null)
         {
-            IQueryable<DataAccess.Entities.Admins> items =  _dbContext.Admins
+            IQueryable<Entities.Admins> items =  _dbContext.Admins
                 .AsNoTracking();
 
             var list = await items.ToListAsync();
@@ -206,7 +206,7 @@ namespace DataAccess.Repositories
         /// <param int="adminId">The ID of the administrator</param>
         public async Task<Domain.Models.Admins> GetAdminByIdAsync(int adminId)
         {
-            DataAccess.Entities.Admins item = await _dbContext.Admins
+            Entities.Admins item = await _dbContext.Admins
                 .FirstOrDefaultAsync(a => a.Id == adminId);
 
             return Mapper.MapAdmins(item);
@@ -218,7 +218,7 @@ namespace DataAccess.Repositories
         /// <returns>The administrator</returns>
         public async Task<Domain.Models.Admins> GetAdminByLoginAsync(string email, string password)
         {
-            DataAccess.Entities.Admins item = await _dbContext.Admins
+            Entities.Admins item = await _dbContext.Admins
                 .FirstOrDefaultAsync(a => a.Email == email && a.Password == password);
 
             return Mapper.MapAdmins(item);
@@ -230,7 +230,7 @@ namespace DataAccess.Repositories
         /// <returns>The admin</returns>
         public async Task<Domain.Models.Admins> GetAdminByEmailAsync(string email)
         {
-            DataAccess.Entities.Admins item = await _dbContext.Admins
+            Entities.Admins item = await _dbContext.Admins
                 .FirstOrDefaultAsync(a => a.Email == email);
 
             //if (item is null)
@@ -247,8 +247,8 @@ namespace DataAccess.Repositories
         /// <returns>The collection of tickets</returns>
         public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsAsync(string search = null)
         {
-            IQueryable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
-                //.Include(c => c.Comments)
+            IQueryable<Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments)
                 .AsNoTracking();
 
             if (search != null)
@@ -262,16 +262,33 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
-        /// Get a ticket by ID.
+        /// Get a ticket by id.
         /// </summary>
-        /// <returns>The ticket</returns>
-        public Domain.Models.Tickets GetTicketById(int ticketId)
+        /// <param int="id">The id of the user</param>
+        /// <returns>The tickets</returns>
+        public async Task<Domain.Models.Tickets> GetTicketByIdAsync(int id)
         {
-            DataAccess.Entities.Tickets item = _dbContext.Tickets
+            Entities.Tickets item = await _dbContext.Tickets
                 .Include(c => c.Comments)
-                .FirstOrDefault(t => t.Id == ticketId);
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             return Mapper.MapTickets(item);
+        }
+
+        /// <summary>
+        /// Get a lis of tickets by user ID.
+        /// </summary>
+        /// <param int="userId">The id of the user</param>
+        /// <returns>The collecgio of tickets</returns>
+        public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByUserAsync(int userId)
+        {
+            IQueryable<Entities.Tickets> items = _dbContext.Tickets
+                .Include(c => c.Comments);
+            
+            items = items.Where(t => t.UserId == userId);
+            var list = await items.ToListAsync();
+
+            return list.Select(Mapper.MapTickets);
         }
 
         /// <summary>
@@ -311,27 +328,11 @@ namespace DataAccess.Repositories
         /// Delete a ticket by ID.
         /// </summary>
         /// <param int="ticketId">The ID of the ticket</param>
-        public void DeleteTicket(int ticketId)
+        public async void DeleteTicketAsync(int ticketId)
         {
             _logger.LogInformation("Deleting ticket with ID {ticketId}", ticketId);
-            DataAccess.Entities.Tickets entity = _dbContext.Tickets.Find(ticketId);
+            Entities.Tickets entity = await _dbContext.Tickets.FindAsync(ticketId);
             _dbContext.Tickets.Remove(entity);
-        }
-
-        /// <summary>
-        /// Get all tickets according to user Id.
-        /// </summary>
-        /// <param int="userId">The ID of the user</param>
-        /// <returns>The collection of tickets</returns>
-        public IEnumerable<Domain.Models.Tickets> GetTicketsByUserId(int userId)
-        {
-            IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
-                .AsNoTracking();
-
-            items = items.Where(t => t.UserId == userId).AsEnumerable();
-
-            return items.Select(Mapper.MapTickets);
         }
 
         /// <summary>
@@ -339,15 +340,16 @@ namespace DataAccess.Repositories
         /// </summary>
         /// <param int="adminId">The ID of the administrator</param>
         /// <returns>The collection of tickets</returns>
-        public IEnumerable<Domain.Models.Tickets> GetTicketsByAdminId(int adminId)
+        public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByAdminAsync(int adminId)
         {
-            IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+            IQueryable<Entities.Tickets> items = _dbContext.Tickets
                 .Include(c => c.Comments)
                 .AsNoTracking();
 
-            items = items.Where(t => t.AdminId == adminId).AsEnumerable();
+            items = items.Where(t => t.AdminId == adminId);
+            var list = await items.ToListAsync();
 
-            return items.Select(Mapper.MapTickets);
+            return list.Select(Mapper.MapTickets);
         }
 
         /// <summary>
@@ -355,31 +357,16 @@ namespace DataAccess.Repositories
         /// </summary>
         /// <param int="storeId">The ID of the store</param>
         /// <returns>The collection of tickets</returns>
-        public IEnumerable<Domain.Models.Tickets> GetTicketsByStoreId(int storeId)
+        public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByStoreAsync(int storeId)
         {
-            IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+            IQueryable<Entities.Tickets> items = _dbContext.Tickets
                 .Include(c => c.Comments)
                 .AsNoTracking();
 
-            items = items.Where(t => t.StoreId == storeId).AsEnumerable();
+            items = items.Where(t => t.StoreId == storeId);
+            var list = await items.ToListAsync();
 
-            return items.Select(Mapper.MapTickets);
-        }
-
-        /// <summary>
-        /// Search all tickets by text string.
-        /// </summary>
-        /// <returns>The collection of tickets</returns>
-        public IEnumerable<Domain.Models.Tickets> GetTicketsByText(string search)
-        {
-            IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
-                .AsNoTracking();
-
-            items = items.Where(t => t.Title.Contains(search) 
-               || t.Details.Contains(search)).AsEnumerable();
-
-            return items.Select(Mapper.MapTickets);
+            return list.Select(Mapper.MapTickets);
         }
 
         /// <summary>
@@ -390,6 +377,19 @@ namespace DataAccess.Repositories
         //{
 
         //}
+
+        /// <summary>
+        /// Get a store by id.
+        /// </summary>
+        /// <param int="storeId">The ID of the store</param>
+        /// <returns>The store</returns>
+        public async Task<Domain.Models.Stores> GetStoreByIdAsync(int storeId)
+        {
+            Entities.Stores item = await _dbContext.Stores
+                .FirstOrDefaultAsync(s => s.Id == storeId);
+
+            return Mapper.MapStores(item);
+        }
 
         /// <summary>
         /// Add a comment to an existing ticket, and associate it with a administrator.
