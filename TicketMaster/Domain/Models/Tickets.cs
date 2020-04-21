@@ -10,7 +10,7 @@ namespace Domain.Models
         private DateTime _datetime;
         private string _details;
         private int _userId;
-        private int _storeId;
+        private int? _storeId;
         private string _completed;
 
         public int Id { get; set; }
@@ -50,7 +50,7 @@ namespace Domain.Models
                 _datetime = value;
             }
         }
-        public DateTime DatetimeModified { get; set; }
+        public DateTime? DatetimeModified { get; set; }
         public DateTime? DatetimeClosed { get; set; }
         public DateTime? Deadline { get; set; }
         public int Priority { get; set; }
@@ -79,7 +79,7 @@ namespace Domain.Models
             }
         }
         public int? AdminId { get; set; }
-        public int StoreId
+        public int? StoreId
         {
             get => _storeId;
             set

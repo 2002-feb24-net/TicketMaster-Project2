@@ -99,7 +99,7 @@ namespace Domain.Interfaces
         /// Get all tickets with deferred execution.
         /// </summary>
         /// <returns>The collection of tickets</returns>
-        IEnumerable<Tickets> GetTickets(string search = null);
+        Task<IEnumerable<Tickets>> GetTicketsAsync(string search = null);
 
         /// <summary>
         /// Get a ticket by ID.

@@ -245,15 +245,20 @@ namespace DataAccess.Repositories
         /// Get all tickets with deferred execution.
         /// </summary>
         /// <returns>The collection of tickets</returns>
-        public IEnumerable<Domain.Models.Tickets> GetTickets(string search = null)
+        public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsAsync(string search = null)
         {
-            IEnumerable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
+            IQueryable<DataAccess.Entities.Tickets> items = _dbContext.Tickets
+                //.Include(c => c.Comments)
                 .AsNoTracking();
 
-            items = items.Where(a => a.Title.Contains(search)).AsEnumerable();
+            var list = await items.ToListAsync();
 
-            return items.Select(Mapper.MapTickets);
+            if (search != null)
+            {
+                 list.Where(a => a.Title.Contains(search) || a.Details.Contains(search));
+            }
+
+            return list.Select(Mapper.MapTickets);
         }
 
         /// <summary>
