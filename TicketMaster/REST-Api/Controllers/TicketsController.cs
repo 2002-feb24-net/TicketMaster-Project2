@@ -31,5 +31,7 @@ namespace REST_Api.Controllers
             IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
             return Ok(resource);
         }
+
+
     }
 }

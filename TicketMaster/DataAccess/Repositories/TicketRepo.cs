@@ -251,12 +251,12 @@ namespace DataAccess.Repositories
                 //.Include(c => c.Comments)
                 .AsNoTracking();
 
-            var list = await items.ToListAsync();
-
             if (search != null)
             {
-                 list.Where(a => a.Title.Contains(search) || a.Details.Contains(search));
+                 items = items.Where(a => a.Title.Contains(search) || a.Details.Contains(search));
             }
+
+            var list = await items.ToListAsync();
 
             return list.Select(Mapper.MapTickets);
         }
