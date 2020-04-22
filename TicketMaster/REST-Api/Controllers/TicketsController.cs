@@ -148,7 +148,7 @@ namespace REST_Api.Controllers
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PostAsync(Tickets newTicket)
+        public async Task<IActionResult> PostAsync([FromBody]Tickets newTicket)
         {
             var ticket = Mapper.MapTickets(newTicket);
             _repo.AddTicketAsync(ticket);
@@ -163,24 +163,24 @@ namespace REST_Api.Controllers
             }
         }
 
-        //// PUT: api/Users/5
-        //[HttpPut("{id}")]
-        //[ProducesResponseType(typeof(Admins), StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status404NotFound)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<IActionResult> PutAsync(int id, [FromBody] Admins user)
-        //{
-        //    if (await _repo.GetAdminByIdAsync(id) is Domain.Models.Admins u)
-        //    {
-        //        var resource = Mapper.MapAdmins(user);
-        //        await _repo.UpdateAdminAsync(id, resource);
-        //        await _repo.SaveAsync();
-        //        var newEntity = await _repo.GetAdminByIdAsync(id);
-        //        return Ok(newEntity);
-        //    }
-        //    return NotFound("Admin doesn't exist");
-        //}
+        // PUT: api/Users/5
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutAsync(int id, [FromBody]Tickets ticket)
+        {
+            if (await _repo.GetTicketByIdAsync(id) is Domain.Models.Tickets t)
+            {
+                var resource = Mapper.MapTickets(ticket);
+                _repo.UpdateTicketAsync(id, resource);
+                await _repo.SaveAsync();
+                var newEntity = await _repo.GetTicketByIdAsync(id);
+                return Ok(newEntity);
+            }
+            return NotFound("Ticket id doesn't exist");
+        }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
