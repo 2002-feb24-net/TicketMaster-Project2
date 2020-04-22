@@ -106,6 +106,6 @@ namespace Domain.Models
         }
 
 
-        public List<Comments> Comments { get; set; } = new List<Comments>();
+        public List<Comments>? Comments { get; set; } = new List<Comments>();
     }
 }

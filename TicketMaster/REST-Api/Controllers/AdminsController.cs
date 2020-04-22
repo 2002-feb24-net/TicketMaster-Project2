@@ -24,9 +24,9 @@ namespace REST_Api.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Admins>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetAsync([FromQuery]string search = null)
+        public async Task<IActionResult> GetAsync([FromQuery]string lastName = null)
         {
-            IEnumerable<Domain.Models.Admins> notes = await _repo.GetAdminsAsync(search);
+            IEnumerable<Domain.Models.Admins> notes = await _repo.GetAdminsAsync(lastName);
 
             IEnumerable<Admins> resource = notes.Select(Mapper.MapAdmins);
             return Ok(resource);
