@@ -342,6 +342,8 @@ namespace DataAccess.Repositories
             Entities.Tickets currentEntity = await _dbContext.Tickets.FindAsync(id);
             var newEntity = currentEntity;
 
+            newEntity.DatetimeModified = DateTime.Now;
+            newEntity.DatetimeClosed = DateTime.Now;
             newEntity.Completed = "YES";
 
             _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
