@@ -49,12 +49,13 @@ namespace REST_Api
 
             services.AddControllers(options =>
             {
+
                 options.ReturnHttpNotAcceptable = true;
                 // remove the default text/plain string formatter to clean up the OpenAPI document
                 options.OutputFormatters.RemoveType<StringOutputFormatter>();
             });
 
-           
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

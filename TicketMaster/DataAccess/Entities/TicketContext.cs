@@ -91,8 +91,6 @@ namespace DataAccess.Entities
 
                 entity.Property(e => e.DatetimeOpened).HasColumnType("datetime");
 
-                entity.Property(e => e.Deadline).HasColumnType("datetime");
-
                 entity.Property(e => e.Details)
                     .IsRequired()
                     .HasMaxLength(280);
