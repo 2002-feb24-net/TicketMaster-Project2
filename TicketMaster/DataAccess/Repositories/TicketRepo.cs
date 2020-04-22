@@ -305,9 +305,13 @@ namespace DataAccess.Repositories
 
             _logger.LogInformation("Adding Ticket");
 
+
             var entity = Mapper.MapTickets(ticket);
 
             entity.Id = 0;
+            entity.DatetimeOpened = DateTime.Now;
+            entity.DatetimeModified = DateTime.Now;
+            entity.Completed = "NO";
             await _dbContext.Tickets.AddAsync(entity);
         }
 
@@ -325,6 +329,23 @@ namespace DataAccess.Repositories
             var newEntity = Mapper.MapTickets(ticket);
 
             _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+        }
+
+        /// <summary>
+        /// Close an open ticket.
+        /// </summary>
+        /// <param int="id">The id of the ticket to close</param>
+        public async void CloseTicketAsync(int id)
+        {
+            _logger.LogInformation("Updating ticket with ID {ticketId}", id);
+
+            Entities.Tickets currentEntity = await _dbContext.Tickets.FindAsync(id);
+            var newEntity = currentEntity;
+
+            newEntity.Completed = "YES";
+
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+            //return Mapper.MapTickets(newEntity);
         }
 
         /// <summary>

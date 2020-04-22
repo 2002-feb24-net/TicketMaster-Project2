@@ -7,7 +7,7 @@ namespace REST_Api.ApiModels
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        public string Category { get; set; }
+        public string? Category { get; set; }
         public DateTime DatetimeOpened { get; set; }
         public DateTime? DatetimeModified { get; set; }
         public DateTime? DatetimeClosed { get; set; }

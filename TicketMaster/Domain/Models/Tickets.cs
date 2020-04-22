@@ -6,7 +6,7 @@ namespace Domain.Models
     public class Tickets
     {
         private string _title;
-        private string _category;
+        private string? _category;
         private DateTime _datetime;
         private string _details;
         private int _userId;
@@ -26,15 +26,15 @@ namespace Domain.Models
                 _title = value;
             }
         }
-        public string Category
+        public string? Category
         {
             get => _category;
             set
             {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("Category must not be empty.", nameof(value));
-                }
+                //if (value.Length == 0)
+                //{
+                //    throw new ArgumentException("Category must not be empty.", nameof(value));
+                //}
                 _category = value;
             }
         }
@@ -43,10 +43,10 @@ namespace Domain.Models
             get => _datetime;
             set
             {
-                if (value == null)
-                {
-                    throw new ArgumentException("Datetime must not be empty.", nameof(value));
-                }
+                //if (value == null)
+                //{
+                //    throw new ArgumentException("Datetime must not be empty.", nameof(value));
+                //}
                 _datetime = value;
             }
         }
@@ -83,10 +83,10 @@ namespace Domain.Models
             get => _storeId;
             set
             {
-                if (value == 0)
-                {
-                    throw new ArgumentException("You must enter a valid StoreId", nameof(value));
-                }
+                //if (value == 0)
+                //{
+                //    throw new ArgumentException("You must enter a valid StoreId", nameof(value));
+                //}
                 _storeId = value;
             }
         }
@@ -95,11 +95,11 @@ namespace Domain.Models
             get => _completed;
             set
             {
-                if (value.Length == 0)
-                {
-                    throw new ArgumentException("You must indicate whether the ticket " +
-                        "has been completed or not.", nameof(value));
-                }
+                //if (value.Length == 0)
+                //{
+                //    throw new ArgumentException("You must indicate whether the ticket " +
+                //        "has been completed or not.", nameof(value));
+                //}
                 _completed = value;
             }
         }

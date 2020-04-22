@@ -164,23 +164,43 @@ namespace REST_Api.Controllers
         }
 
         // PUT: api/Users/5
+        [HttpPut]
+        [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutAsync([FromBody]Tickets ticket)
+        {
+            if (await _repo.GetTicketByIdAsync(ticket.Id) is Domain.Models.Tickets t)
+            {
+                var resource = Mapper.MapTickets(ticket);
+                _repo.UpdateTicketAsync(ticket.Id, resource);
+                await _repo.SaveAsync();
+                var newEntity = await _repo.GetTicketByIdAsync(ticket.Id);
+                return Ok(newEntity);
+            }
+            return NotFound("Ticket id doesn't exist");
+        }
+
+        // PUT: api/Users/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> PutAsync(int id, [FromBody]Tickets ticket)
+        public async Task<IActionResult> PutAsync(int id)
         {
             if (await _repo.GetTicketByIdAsync(id) is Domain.Models.Tickets t)
             {
-                var resource = Mapper.MapTickets(ticket);
-                _repo.UpdateTicketAsync(id, resource);
+                
+                _repo.CloseTicketAsync(id);
                 await _repo.SaveAsync();
                 var newEntity = await _repo.GetTicketByIdAsync(id);
                 return Ok(newEntity);
             }
             return NotFound("Ticket id doesn't exist");
         }
+
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]

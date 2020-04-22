@@ -127,6 +127,12 @@ namespace Domain.Interfaces
         void UpdateTicketAsync(int id, Tickets ticket);
 
         /// <summary>
+        /// Close an open ticket.
+        /// </summary>
+        /// <param int="id">The id of the ticket to close</param>
+        void CloseTicketAsync(int id);
+
+        /// <summary>
         /// Delete a ticket by ID.
         /// </summary>
         /// <param int="ticketId">The ID of the ticket</param>
