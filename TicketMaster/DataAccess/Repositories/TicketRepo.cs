@@ -344,7 +344,7 @@ namespace DataAccess.Repositories
 
             newEntity.DatetimeModified = DateTime.Now;
             newEntity.DatetimeClosed = DateTime.Now;
-            newEntity.Completed = "YES";
+            newEntity.Completed = "CLOSED";
 
             _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
             //return Mapper.MapTickets(newEntity);
