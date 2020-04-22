@@ -311,7 +311,7 @@ namespace DataAccess.Repositories
             entity.Id = 0;
             entity.DatetimeOpened = DateTime.Now;
             entity.DatetimeModified = DateTime.Now;
-            entity.Completed = "NO";
+            entity.Completed = "OPEN";
             await _dbContext.Tickets.AddAsync(entity);
         }
 
