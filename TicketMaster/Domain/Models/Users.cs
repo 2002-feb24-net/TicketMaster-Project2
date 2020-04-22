@@ -9,7 +9,7 @@ namespace Domain.Models
         private string _lastName;
         private string _email;
         private string _password;
-        private long _phoneNumber;
+        private string _phoneNumber;
 
         public int Id { get; set; }
         public string FirstName
@@ -39,12 +39,12 @@ namespace Domain.Models
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
-        public long PhoneNumber
+        public string PhoneNumber
         {
             get => _phoneNumber;
             set
             {
-                if (value > 9999999999 || value < 999999999)
+                if (value.Length != 10)//> 9999999999 || value < 999999999)
                 {
                     throw new ArgumentException("You must enter a valid phone number.", nameof(value));
                 }
