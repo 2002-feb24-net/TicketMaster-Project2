@@ -316,11 +316,11 @@ namespace DataAccess.Repositories
         /// Update a ticket.
         /// </summary>
         /// <param name="ticket">The ticket with changed values</param>
-        public void UpdateTicket(Domain.Models.Tickets ticket)
+        public async void UpdateTicketAsync(int id, Domain.Models.Tickets ticket)
         {
-            _logger.LogInformation("Updating ticket with ID {ticketId}", ticket.Id);
+            _logger.LogInformation("Updating ticket with ID {ticketId}", id);
 
-            DataAccess.Entities.Tickets currentEntity = _dbContext.Tickets.Find(ticket.Id);
+            Entities.Tickets currentEntity = await _dbContext.Tickets.FindAsync(id);
             var newEntity = Mapper.MapTickets(ticket);
 
             _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);

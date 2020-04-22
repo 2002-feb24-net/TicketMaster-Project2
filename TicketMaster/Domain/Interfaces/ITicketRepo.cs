@@ -124,7 +124,7 @@ namespace Domain.Interfaces
         /// Update a ticket.
         /// </summary>
         /// <param name="ticket">The ticket with changed values</param>
-        void UpdateTicket(Tickets ticket);
+        void UpdateTicketAsync(int id, Tickets ticket);
 
         /// <summary>
         /// Delete a ticket by ID.
