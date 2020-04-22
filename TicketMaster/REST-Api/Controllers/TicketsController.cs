@@ -33,8 +33,20 @@ namespace REST_Api.Controllers
             return Ok(resource);
         }
 
+        // GET: api/tickets/string
+        //[HttpGet("{since}")]
+        //[ProducesResponseType(typeof(IEnumerable<Tickets>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> GetByDatetimeAsync([FromQuery]DateTime since)
+        //{
+        //    IEnumerable<Domain.Models.Tickets> tickets = await _repo.GetTicketsAsync(since);
 
-        // GET: api/Users/5
+        //    IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
+        //    return Ok(resource);
+        //}
+
+
+        // GET: api/Users/string,int
         [HttpGet("{searchType},{id}")]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -106,6 +118,24 @@ namespace REST_Api.Controllers
                 return BadRequest("Incorrect Id. User does not exist.");
             }
 
+            //else if (searchType.ToLower() == "complete")
+            //{
+            //    IEnumerable<Domain.Models.Tickets> tickets = await _repo.GetTicketsByUserAsync(id);
+            //            if (tickets.Count() == 0)
+            //            {
+            //                return NotFound("User has no tickets");
+            //            }
+            //            else
+            //            {
+            //                IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
+            //                return Ok(resource);
+            //            }
+                    
+            //        return NotFound("dunno wha happen");
+                
+            //    return BadRequest("Incorrect Id. User does not exist.");
+            //}
+
             else
             {
                 return BadRequest("Incorrect search type. Please enter 'admin', 'store', or 'user'.");
@@ -113,26 +143,25 @@ namespace REST_Api.Controllers
         }
 
 
-        //// POST: api/Users
-        //[HttpPost]
-        //[ProducesResponseType(typeof(Admins), StatusCodes.Status201Created)]
-        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //public async Task<IActionResult> PostAsync(Admins newUser)
-        //{
-        //    if (await _repo.GetAdminByEmailAsync(newUser.Email) is Domain.Models.Admins u)
-        //    {
-        //        return BadRequest("Email already esists");
-        //    }
-        //    else
-        //    {
-        //        var user = Mapper.MapAdmins(newUser);
-        //        await _repo.AddAdminAsync(user);
-        //        await _repo.SaveAsync();
-        //        var newEntity = await _repo.GetAdminByEmailAsync(user.Email);
-        //        return Ok(newEntity);
-        //    }
-        //}
+        // POST: api/Users
+        [HttpPost]
+        [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PostAsync(Tickets newTicket)
+        {
+            var ticket = Mapper.MapTickets(newTicket);
+            _repo.AddTicketAsync(ticket);
+            await _repo.SaveAsync();
+            if (await _repo.GetLatestTicketAsync() is Domain.Models.Tickets newEntity)
+            {
+                return Ok(newEntity);
+            }
+            else //if (await _repo.GetLatestTicketAsync() is null)
+            {
+                return StatusCode(500, "Ticket is improperly formatted");
+            }
+        }
 
         //// PUT: api/Users/5
         //[HttpPut("{id}")]

@@ -15,7 +15,7 @@ namespace Domain.Interfaces
         /// Get all users with deferred execution.
         /// </summary>
         /// <returns>The collection of users</returns>
-        Task<IEnumerable<Users>> GetUsersAsync(string search = null);
+        Task<IEnumerable<Users>> GetUsersAsync(string lastName = null);
 
         /// <summary>
         /// Get a user by ID.
@@ -75,7 +75,7 @@ namespace Domain.Interfaces
         /// Get all administrators with deferred execution.
         /// </summary>
         /// <returns>The collection of administrators</returns>
-        Task<IEnumerable<Admins>> GetAdminsAsync(string search = null);
+        Task<IEnumerable<Admins>> GetAdminsAsync(string lastName = null);
 
         /// <summary>
         /// Get a administrator by ID.
@@ -118,7 +118,7 @@ namespace Domain.Interfaces
         /// Add a ticket and associate it with a user.
         /// </summary>
         /// <param name="ticket">The ticket</param>
-        void AddTicket(Tickets ticket);
+        void AddTicketAsync(Tickets ticket);
 
         /// <summary>
         /// Update a ticket.
@@ -145,6 +145,12 @@ namespace Domain.Interfaces
         /// <param int="storeId">The ID of the store</param>
         /// <returns>The collection of tickets</returns>
         Task<IEnumerable<Tickets>> GetTicketsByStoreAsync(int storeId);
+
+        /// <summary>
+        /// Get the last ticket created.
+        /// </summary>
+        /// <returns>The ticket</returns>
+        Task<Tickets> GetLatestTicketAsync();
 
         /// <summary>
         /// Search all tickets by datetime.

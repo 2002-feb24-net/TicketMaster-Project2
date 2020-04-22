@@ -27,18 +27,18 @@ namespace DataAccess.Repositories
         /// Get all users with deferred execution.
         /// </summary>
         /// <returns>The collection of users</returns>
-        public async Task<IEnumerable<Domain.Models.Users>> GetUsersAsync(string search = null)
+        public async Task<IEnumerable<Domain.Models.Users>> GetUsersAsync(string lastName = null)
         {
             IQueryable<DataAccess.Entities.Users> items = _dbContext.Users
                 .AsNoTracking();
 
+            if(lastName != null)
+            {
+                items = items.Where(u => u.LastName.Contains(lastName));
+            }
+
             var list = await items.ToListAsync();
 
-            if(search != null)
-            {
-                list.Where(u => u.LastName.Contains(search));
-            }
-            
             return list.Select(Mapper.MapUsers);
         }
 
@@ -185,17 +185,17 @@ namespace DataAccess.Repositories
         /// Get all administrators with deferred execution.
         /// </summary>
         /// <returns>The collection of administrators</returns>
-        public async Task<IEnumerable<Domain.Models.Admins>> GetAdminsAsync(string search = null)
+        public async Task<IEnumerable<Domain.Models.Admins>> GetAdminsAsync(string lastName = null)
         {
             IQueryable<Entities.Admins> items =  _dbContext.Admins
                 .AsNoTracking();
 
-            var list = await items.ToListAsync();
-
-            if(search != null)
+            if(lastName != null)
             {
-                list.Where(a => a.LastName.Contains(search));
+                items = items.Where(a => a.LastName.Contains(lastName));
             }
+
+            var list = await items.ToListAsync();
 
             return list.Select(Mapper.MapAdmins);
         }
@@ -295,7 +295,7 @@ namespace DataAccess.Repositories
         /// Add a ticket and associate it with a user.
         /// </summary>
         /// <param name="ticket">The ticket</param>
-        public void AddTicket(Domain.Models.Tickets ticket)
+        public async void AddTicketAsync(Domain.Models.Tickets ticket)
         {
             if (ticket.Id != 0)
             {
@@ -307,8 +307,10 @@ namespace DataAccess.Repositories
             var entity = Mapper.MapTickets(ticket);
 
             entity.Id = 0;
-            _dbContext.Tickets.Add(entity);
+            await _dbContext.Tickets.AddAsync(entity);
         }
+
+
 
         /// <summary>
         /// Update a ticket.
@@ -367,6 +369,22 @@ namespace DataAccess.Repositories
             var list = await items.ToListAsync();
 
             return list.Select(Mapper.MapTickets);
+        }
+
+        /// <summary>
+        /// Get the last ticket created.
+        /// </summary>
+        /// <returns>The ticket</returns>
+        public async Task<Domain.Models.Tickets> GetLatestTicketAsync()
+        {
+            IQueryable<Entities.Tickets> list = _dbContext.Tickets
+                .Include(c => c.Comments)
+                .OrderByDescending(t => t.DatetimeOpened);
+
+            Entities.Tickets item = await list.FirstOrDefaultAsync();
+                
+
+            return Mapper.MapTickets(item);
         }
 
         /// <summary>
