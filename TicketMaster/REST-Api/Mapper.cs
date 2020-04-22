@@ -112,7 +112,7 @@ namespace REST_Api
                 AdminId = t.AdminId,
                 StoreId = t.StoreId,
                 Completed = t.Completed,
-                Comments = t.Comments.Select(MapComments).ToList()
+                //Comments = t.Comments.Select(MapComments).ToList()
             };
         }
 
@@ -140,7 +140,7 @@ namespace REST_Api
                 AdminId = t.AdminId,
                 StoreId = t.StoreId,
                 Completed = t.Completed,
-                Comments = t.Comments.Select(MapComments).ToList()
+                //Comments = t.Comments.Select(MapComments).ToList()
             };
         }
 

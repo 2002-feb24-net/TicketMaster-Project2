@@ -248,7 +248,7 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsAsync(string search = null)
         {
             IQueryable<Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
+                //.Include(c => c.Comments)
                 .AsNoTracking();
 
             if (search != null)
@@ -269,7 +269,7 @@ namespace DataAccess.Repositories
         public async Task<Domain.Models.Tickets> GetTicketByIdAsync(int id)
         {
             Entities.Tickets item = await _dbContext.Tickets
-                .Include(c => c.Comments)
+                //.Include(c => c.Comments)
                 .FirstOrDefaultAsync(t => t.Id == id);
 
             return Mapper.MapTickets(item);
@@ -283,7 +283,8 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByUserAsync(int userId)
         {
             IQueryable<Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments);
+                //.Include(c => c.Comments);
+                .AsNoTracking();
             
             items = items.Where(t => t.UserId == userId);
             var list = await items.ToListAsync();
@@ -345,7 +346,7 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByAdminAsync(int adminId)
         {
             IQueryable<Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
+                //.Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.AdminId == adminId);
@@ -362,7 +363,7 @@ namespace DataAccess.Repositories
         public async Task<IEnumerable<Domain.Models.Tickets>> GetTicketsByStoreAsync(int storeId)
         {
             IQueryable<Entities.Tickets> items = _dbContext.Tickets
-                .Include(c => c.Comments)
+                //.Include(c => c.Comments)
                 .AsNoTracking();
 
             items = items.Where(t => t.StoreId == storeId);
@@ -378,7 +379,7 @@ namespace DataAccess.Repositories
         public async Task<Domain.Models.Tickets> GetLatestTicketAsync()
         {
             IQueryable<Entities.Tickets> list = _dbContext.Tickets
-                .Include(c => c.Comments)
+                //.Include(c => c.Comments)
                 .OrderByDescending(t => t.DatetimeOpened);
 
             Entities.Tickets item = await list.FirstOrDefaultAsync();
@@ -432,7 +433,7 @@ namespace DataAccess.Repositories
                 DataAccess.Entities.Comments newEntity = Mapper.MapComments(comment);
                 ticketEntity.Comments.Add(newEntity);
   
-                ticket.Comments.Add(comment);
+                //ticket.Comments.Add(comment);
             }
             else
             {

@@ -19,6 +19,6 @@ namespace REST_Api.ApiModels
         public int? StoreId { get; set; }
         public string Completed { get; set; }
 
-        public List<Comments>? Comments { get; set; } = new List<Comments>();
+        //public List<Comments>? Comments { get; set; } = new List<Comments>();
     }
 }
