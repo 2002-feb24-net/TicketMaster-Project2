@@ -19,7 +19,9 @@ namespace DataAccess.Entities
         public string Priority { get; set; }
         public string Details { get; set; }
         public int UserId { get; set; }
+        public string? UserRequesterName {get; set;}
         public int? AdminId { get; set; }
+        public string? AdminAssignedName { get; set; }
         public int? StoreId { get; set; }
         public string Completed { get; set; }
 

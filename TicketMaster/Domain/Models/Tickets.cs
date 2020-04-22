@@ -77,7 +77,9 @@ namespace Domain.Models
                 _userId = value;
             }
         }
+        public string? UserRequesterName { get; set; }
         public int? AdminId { get; set; }
+        public string? AdminAssignedName { get; set; }
         public int? StoreId
         {
             get => _storeId;
