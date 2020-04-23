@@ -60,7 +60,7 @@ namespace REST_Api.Controllers
                 Users resource = Mapper.MapUsers(user);
                 return Ok(resource);
             }
-            return NotFound("Incorrest eamil/password. Please try again.");
+            return NotFound("Incorrect email/password. Please try again.");
         }
 
         // POST: api/Users
