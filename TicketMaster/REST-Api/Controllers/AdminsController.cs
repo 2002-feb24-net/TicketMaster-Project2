@@ -59,7 +59,7 @@ namespace REST_Api.Controllers
                 Admins resource = Mapper.MapAdmins(user);
                 return Ok(resource);
             }
-            return NotFound("Incorrest eamil/password. Please try again.");
+            return NotFound("Incorrect email/password. Please try again.");
         }
 
         // POST: api/Users
@@ -71,7 +71,7 @@ namespace REST_Api.Controllers
         {
             if (await _repo.GetAdminByEmailAsync(newUser.Email) is Domain.Models.Admins u)
             {
-                return BadRequest("Email already esists");
+                return BadRequest("Email already exists");
             }
             else
             {
