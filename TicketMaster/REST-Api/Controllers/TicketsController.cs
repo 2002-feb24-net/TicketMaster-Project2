@@ -118,6 +118,20 @@ namespace REST_Api.Controllers
                 return BadRequest("Incorrect Id. User does not exist.");
             }
 
+            else if (searchType.ToLower() == "ticket")
+            {
+               
+                    if (await _repo.GetTicketByIdAsync(id) is Domain.Models.Tickets ticket)
+                    {
+                       
+                            Tickets resource = Mapper.MapTickets(ticket);
+                            return Ok(resource);
+                        
+                    }
+                    return NotFound("Incorrect ticket id. Ticket does not exist.");
+                
+            }
+
             //else if (searchType.ToLower() == "complete")
             //{
             //    IEnumerable<Domain.Models.Tickets> tickets = await _repo.GetTicketsByUserAsync(id);
@@ -130,15 +144,15 @@ namespace REST_Api.Controllers
             //                IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
             //                return Ok(resource);
             //            }
-                    
+
             //        return NotFound("dunno wha happen");
-                
+
             //    return BadRequest("Incorrect Id. User does not exist.");
             //}
 
             else
             {
-                return BadRequest("Incorrect search type. Please enter 'admin', 'store', or 'user'.");
+                return BadRequest("Incorrect search type. Please enter 'admin', 'store', 'ticket', or 'user'.");
             }
         }
 
