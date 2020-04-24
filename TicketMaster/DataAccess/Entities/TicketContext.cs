@@ -16,7 +16,6 @@ namespace DataAccess.Entities
         }
 
         public virtual DbSet<Admins> Admins { get; set; }
-        public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Stores> Stores { get; set; }
         public virtual DbSet<Tickets> Tickets { get; set; }
         public virtual DbSet<Users> Users { get; set; }
@@ -44,25 +43,7 @@ namespace DataAccess.Entities
                     .HasMaxLength(50);
             });
 
-            modelBuilder.Entity<Comments>(entity =>
-            {
-                entity.Property(e => e.Comment)
-                    .IsRequired()
-                    .HasMaxLength(280);
-
-                entity.Property(e => e.Datetime).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Admin)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.AdminId)
-                    .HasConstraintName("FK__Comments__AdminI__5535A963");
-
-                entity.HasOne(d => d.Ticket)
-                    .WithMany(p => p.Comments)
-                    .HasForeignKey(d => d.TicketId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Comments__Ticket__5441852A");
-            });
+            
 
             modelBuilder.Entity<Stores>(entity =>
             {

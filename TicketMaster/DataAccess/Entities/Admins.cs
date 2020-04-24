@@ -7,7 +7,6 @@ namespace DataAccess.Entities
     {
         public Admins()
         {
-            Comments = new HashSet<Comments>();
             Tickets = new HashSet<Tickets>();
         }
 
@@ -19,7 +18,6 @@ namespace DataAccess.Entities
         public string CurrentTicket { get; set; }
         public int SupportLevel { get; set; }
 
-        public virtual ICollection<Comments> Comments { get; set; }
         public virtual ICollection<Tickets> Tickets { get; set; }
     }
 }

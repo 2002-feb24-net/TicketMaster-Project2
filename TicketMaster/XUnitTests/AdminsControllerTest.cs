@@ -1,4 +1,4 @@
-using Xunit;
+﻿using Xunit;
 using Domain.Interfaces;
 using Domain.Models;
 using REST_Api.ApiModels;
@@ -12,48 +12,49 @@ using REST_Api;
 
 namespace XUnitTests
 {
-    public class UsersControllerTest
+    public class AdminsControllerTest
     {
-        private readonly UsersController _controller;
+        private readonly AdminsController _controller;
         //private readonly ILogger<UsersControllerTest> _logger;
         Mock<ITicketRepo> mockRepo = new Mock<ITicketRepo>();
-        private Domain.Models.Users user = new Domain.Models.Users
+        private Domain.Models.Admins admin = new Domain.Models.Admins
         {
             Id = 1,
             FirstName = "Test",
-            LastName = "User",
+            LastName = "Admin",
             Email = "tester@email.com",
             Password = "password",
+            SupportLevel = 1
         };
 
-        List<Domain.Models.Users> users = new List<Domain.Models.Users>();
+        List<Domain.Models.Admins> admins = new List<Domain.Models.Admins>();
 
-        public UsersControllerTest(/*ILogger<UsersControllerTest> logger*/)
+        public AdminsControllerTest(/*ILogger<UsersControllerTest> logger*/)
         {
             //Arrange
-            
-            users.Add(user);
-            users.AsEnumerable();
 
-            mockRepo.Setup(repo => repo.GetUsersAsync("User"))
-           .ReturnsAsync(users);
-            mockRepo.Setup(repo => repo.GetUserByIdAsync(user.Id))
-            .ReturnsAsync(user);
-            mockRepo.Setup(repo => repo.GetUserByLoginAsync(user.Email, user.Password))
-            .ReturnsAsync(user);
-            mockRepo.Setup(repo => repo.GetUserByEmailAsync(user.Email))
-            .ReturnsAsync(user);
-            mockRepo.Setup(repo => repo.AddUserAsync(user))
-            .Verifiable("user was not added");
-            mockRepo.Setup(repo => repo.UpdateUserAsync(user.Id, user))
-            .ReturnsAsync(user);
-            mockRepo.Setup(repo => repo.UpdateUserPasswordAsync(user.Id, user.Password))
-            .ReturnsAsync(user);
+            admins.Add(admin);
+            admins.AsEnumerable();
+
+            mockRepo.Setup(repo => repo.GetAdminsAsync("Admin"))
+           .ReturnsAsync(admins);
+            mockRepo.Setup(repo => repo.GetAdminByIdAsync(admin.Id))
+            .ReturnsAsync(admin);
+            mockRepo.Setup(repo => repo.GetAdminByLoginAsync(admin.Email, admin.Password))
+            .ReturnsAsync(admin);
+            mockRepo.Setup(repo => repo.GetAdminByEmailAsync(admin.Email))
+            .ReturnsAsync(admin);
+            mockRepo.Setup(repo => repo.AddAdminAsync(admin))
+            .Verifiable("admin was not added");
+            mockRepo.Setup(repo => repo.UpdateAdminAsync(admin.Id, admin))
+            .ReturnsAsync(admin);
+            mockRepo.Setup(repo => repo.UpdateAdminPasswordAsync(admin.Id, admin.Password))
+            .ReturnsAsync(admin);
             mockRepo.Setup(repo => repo.SaveAsync())
            .ReturnsAsync(true);
-            mockRepo.Setup(repo => repo.DeleteUserAsync(1))
+            mockRepo.Setup(repo => repo.DeleteAdminAsync(1))
            .Verifiable("item was not removed");
-            _controller = new UsersController(mockRepo.Object);
+            _controller = new AdminsController(mockRepo.Object);
             //_logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -63,11 +64,11 @@ namespace XUnitTests
         {
             var result1 = await _controller.GetByIdAsync(1);
             var goodRequestResult = Assert.IsType<OkObjectResult>(result1);
-            Assert.Same(Mapper.MapUsers(user).ToString(), goodRequestResult.Value.ToString());
+            Assert.Same(Mapper.MapAdmins(admin).ToString(), goodRequestResult.Value.ToString());
 
             var result2 = await _controller.GetByIdAsync(2);
             Assert.IsType<NotFoundObjectResult>(result2);
-            
+
         }
 
 
@@ -76,7 +77,7 @@ namespace XUnitTests
         {
             var result1 = await _controller.GetByLoginAsync("tester@email.com", "password");
             var goodRequestResult = Assert.IsType<OkObjectResult>(result1);
-            Assert.Same(Mapper.MapUsers(user).ToString(), goodRequestResult.Value.ToString());
+            Assert.Same(Mapper.MapAdmins(admin).ToString(), goodRequestResult.Value.ToString());
 
             var result2 = await _controller.GetByLoginAsync("tester@email.com", "1234");
             Assert.IsType<NotFoundObjectResult>(result2);
@@ -85,56 +86,56 @@ namespace XUnitTests
         [Fact]
         public async void Test3()
         {
-            var user2 = new REST_Api.ApiModels.Users
+            var admin2 = new REST_Api.ApiModels.Admins
             {
                 Id = 2,
                 FirstName = "Test3",
-                LastName = "User",
+                LastName = "Admin",
                 Email = "tester3@email.com",
                 Password = "password",
             };
-            var result1 = await _controller.PostAsync(user2);
+            var result1 = await _controller.PostAsync(admin2);
             Assert.IsType<OkObjectResult>(result1);
-            
 
-            user2.Email = "tester@email.com";
-            var result2 = await _controller.PostAsync(user2);
+
+            admin2.Email = "tester@email.com";
+            var result2 = await _controller.PostAsync(admin2);
             Assert.IsType<BadRequestObjectResult>(result2);
         }
 
         [Fact]
         public async void Test4()
         {
-            var user2 = new REST_Api.ApiModels.Users
+            var admin2 = new REST_Api.ApiModels.Admins
             {
                 Id = 2,
                 FirstName = "Test3",
-                LastName = "User",
+                LastName = "Admin",
                 Email = "tester3@email.com",
                 Password = "password",
             };
-            var result1 = await _controller.Put(1, user2);
+            var result1 = await _controller.PutAsync(1, admin2);
             var goodRequestResult = Assert.IsType<OkObjectResult>(result1);
-            Assert.Same(Mapper.MapUsers(user2).ToString(), goodRequestResult.Value.ToString());
+            Assert.Same(Mapper.MapAdmins(admin2).ToString(), goodRequestResult.Value.ToString());
 
-            var result2 = await _controller.Put(4, user2);
+            var result2 = await _controller.PutAsync(4, admin2);
             Assert.IsType<NotFoundObjectResult>(result2);
         }
 
         [Fact]
         public async void Test5()
         {
-            var user2 = new REST_Api.ApiModels.Users
+            var admin2 = new REST_Api.ApiModels.Admins
             {
                 Id = 1,
                 FirstName = "Test",
-                LastName = "User",
+                LastName = "Admin",
                 Email = "tester@email.com",
                 Password = "new password",
             };
-            var result1 = await _controller.PutToChangePasswordAsync(1, user2.Password);
+            var result1 = await _controller.PutToChangePasswordAsync(1, admin2.Password);
             var goodRequestResult = Assert.IsType<OkObjectResult>(result1);
-            //Assert.Same(Mapper.MapUsers(user2).ToString(), goodRequestResult.Value.ToString());
+            //Assert.Same(Mapper.MapAdmins(admin2).ToString(), goodRequestResult.Value.ToString());
 
 
             var result2 = await _controller.PutToChangePasswordAsync(5, "1234");
@@ -154,9 +155,9 @@ namespace XUnitTests
         [Fact]
         public async void Test7()
         {
-            var result1 = await _controller.GetAsync("User");
+            var result1 = await _controller.GetAsync("Admin");
             var goodRequestResult = Assert.IsType<OkObjectResult>(result1);
-            Assert.Same(users.Select(Mapper.MapUsers).ToString(), goodRequestResult.Value.ToString());
+            Assert.Same(admins.Select(Mapper.MapAdmins).ToString(), goodRequestResult.Value.ToString());
 
             var result2 = await _controller.GetAsync("404");
             Assert.IsType<NotFoundObjectResult>(result2);
@@ -164,4 +165,3 @@ namespace XUnitTests
     }
 
 }
-

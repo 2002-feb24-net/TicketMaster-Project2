@@ -146,39 +146,39 @@ namespace REST_Api
             };
         }
 
-        /// <summary>
-        /// Maps an Entity Framework comment DAO to a business model,
-        /// </summary>
-        /// <param name="c">The comment DAO.</param>
-        /// <returns>The comment business model.</returns>
-        public static Domain.Models.Comments MapComments(Comments c)
-        {
-            return c is null ? null : new Domain.Models.Comments
-            {
-                Id = c.Id,
-                TicketId = c.TicketId,
-                Comment = c.Comment,
-                Datetime = c.Datetime,
-                AdminId = c.AdminId
-            };
-        }
+        ///// <summary>
+        ///// Maps an Entity Framework comment DAO to a business model,
+        ///// </summary>
+        ///// <param name="c">The comment DAO.</param>
+        ///// <returns>The comment business model.</returns>
+        //public static Domain.Models.Comments MapComments(Comments c)
+        //{
+        //    return c is null ? null : new Domain.Models.Comments
+        //    {
+        //        Id = c.Id,
+        //        TicketId = c.TicketId,
+        //        Comment = c.Comment,
+        //        Datetime = c.Datetime,
+        //        AdminId = c.AdminId
+        //    };
+        //}
 
-        /// <summary>
-        /// Maps a comment business model to a DAO for Entity Framework,
-        /// </summary>
-        /// <param name="c">The comment business model.</param>
-        /// <returns>The comment DAO.</returns>
-        public static Comments MapComments(Domain.Models.Comments c)
-        {
-            return c is null ? null : new Comments
-            {
-                Id = c.Id,
-                TicketId = c.TicketId,
-                Comment = c.Comment,
-                Datetime = c.Datetime,
-                AdminId = c.AdminId
-            };
-        }
+        ///// <summary>
+        ///// Maps a comment business model to a DAO for Entity Framework,
+        ///// </summary>
+        ///// <param name="c">The comment business model.</param>
+        ///// <returns>The comment DAO.</returns>
+        //public static Comments MapComments(Domain.Models.Comments c)
+        //{
+        //    return c is null ? null : new Comments
+        //    {
+        //        Id = c.Id,
+        //        TicketId = c.TicketId,
+        //        Comment = c.Comment,
+        //        Datetime = c.Datetime,
+        //        AdminId = c.AdminId
+        //    };
+        //}
 
     }
 }

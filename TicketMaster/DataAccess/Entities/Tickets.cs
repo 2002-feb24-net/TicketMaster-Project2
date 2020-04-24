@@ -7,7 +7,7 @@ namespace DataAccess.Entities
     {
         public Tickets()
         {
-            Comments = new HashSet<Comments>();
+            //Comments = new HashSet<Comments>();
         }
 
         public int Id { get; set; }
@@ -28,6 +28,6 @@ namespace DataAccess.Entities
         public virtual Admins Admin { get; set; }
         public virtual Stores Store { get; set; }
         public virtual Users User { get; set; }
-        public virtual ICollection<Comments> Comments { get; set; }
+        //public virtual ICollection<Comments> Comments { get; set; }
     }
 }

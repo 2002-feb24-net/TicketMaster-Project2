@@ -26,10 +26,16 @@ namespace REST_Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAsync([FromQuery]string lastName = null)
         {
-            IEnumerable<Domain.Models.Admins> notes = await _repo.GetAdminsAsync(lastName);
-
-            IEnumerable<Admins> resource = notes.Select(Mapper.MapAdmins);
-            return Ok(resource);
+            IEnumerable<Domain.Models.Admins> admins = await _repo.GetAdminsAsync(lastName);
+            if (admins.Count() == 0)
+            {
+                return NotFound("Last name not found.");
+            }
+            else
+            {
+                IEnumerable<Admins> resource = admins.Select(Mapper.MapAdmins);
+                return Ok(resource);
+            }
         }
 
         // GET: api/admins/5
@@ -52,7 +58,7 @@ namespace REST_Api.Controllers
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetbyLoginAsync(string email, string password)
+        public async Task<IActionResult> GetByLoginAsync(string email, string password)
         {
             if (await _repo.GetAdminByLoginAsync(email, password) is Domain.Models.Admins user)
             {
@@ -110,11 +116,18 @@ namespace REST_Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> PutToChangePasswordAsync(int adminId, string password)
         {
-            if (await _repo.GetAdminByIdAsync(adminId) is Domain.Models.Admins)
+            if (await _repo.GetAdminByIdAsync(adminId) is Domain.Models.Admins oldEntity)
             {
-                var newEntity = await _repo.UpdateAdminPasswordAsync(adminId, password);
-                await _repo.SaveAsync();
-                return Ok(newEntity);
+                if (oldEntity.Password == password)
+                {
+                    return BadRequest("Password same as current password. Please Enter a new password");
+                }
+                else
+                {
+                    var newEntity = await _repo.UpdateAdminPasswordAsync(adminId, password);
+                    await _repo.SaveAsync();
+                    return Ok(newEntity);
+                }
             }
             else
                 return NotFound("Admin id does not exist");

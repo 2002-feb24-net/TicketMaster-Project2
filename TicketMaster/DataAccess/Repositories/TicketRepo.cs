@@ -120,7 +120,7 @@ namespace DataAccess.Repositories
         public async void DeleteUserAsync(int userId)
         {
             _logger.LogInformation("Deleting user with ID {userId}", userId);
-            DataAccess.Entities.Users entity = await _dbContext.Users.FindAsync(userId);
+            Entities.Users entity = await _dbContext.Users.FindAsync(userId);
             _dbContext.Users.Remove(entity);
         }
 
@@ -130,7 +130,7 @@ namespace DataAccess.Repositories
         /// <returns>The user</returns>
         public async Task<Domain.Models.Users> GetUserByLoginAsync(string email, string password)
         {
-            DataAccess.Entities.Users item = await _dbContext.Users
+            Entities.Users item = await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Email == email && u.Password == password);
 
             return Mapper.MapUsers(item);
@@ -142,13 +142,8 @@ namespace DataAccess.Repositories
         /// <returns>The user</returns>
         public async Task<Domain.Models.Users> GetUserByEmailAsync(string email)
         {
-            DataAccess.Entities.Users item = await _dbContext.Users
+            Entities.Users item = await _dbContext.Users
                 .FirstOrDefaultAsync(u => u.Email == email);
-
-            //if (item is null)
-            //{
-            //    throw new ArgumentException("User does not exist");
-            //}
 
             return Mapper.MapUsers(item);
         }
@@ -494,82 +489,82 @@ namespace DataAccess.Repositories
             return Mapper.MapStores(item);
         }
 
-        /// <summary>
-        /// Add a comment to an existing ticket, and associate it with a administrator.
-        /// </summary>
-        /// <param name="comment">The comment</param>
-        /// <param int="ticketId">The id of the ticket</param>
-        public void AddComment(Domain.Models.Comments comment, Domain.Models.Tickets ticket)
-        {
-            if (comment.Id != 0)
-            {
-                _logger.LogWarning("Comment to be added has an ID ({commentId}) already: ignoring.", comment.Id);
-            }
+        ///// <summary>
+        ///// Add a comment to an existing ticket, and associate it with a administrator.
+        ///// </summary>
+        ///// <param name="comment">The comment</param>
+        ///// <param int="ticketId">The id of the ticket</param>
+        //public void AddComment(Domain.Models.Comments comment, Domain.Models.Tickets ticket)
+        //{
+        //    if (comment.Id != 0)
+        //    {
+        //        _logger.LogWarning("Comment to be added has an ID ({commentId}) already: ignoring.", comment.Id);
+        //    }
 
-            _logger.LogInformation("Adding comment to ticket with ID {ticketId}", ticket.Id);
+        //    _logger.LogInformation("Adding comment to ticket with ID {ticketId}", ticket.Id);
 
-            if (ticket != null)
-            {
+        //    if (ticket != null)
+        //    {
 
-                DataAccess.Entities.Tickets ticketEntity = _dbContext.Tickets
-                    .Include(c => c.Comments)
-                    .First(t => t.Id == ticket.Id);
-                DataAccess.Entities.Comments newEntity = Mapper.MapComments(comment);
-                ticketEntity.Comments.Add(newEntity);
+        //        DataAccess.Entities.Tickets ticketEntity = _dbContext.Tickets
+        //            .Include(c => c.Comments)
+        //            .First(t => t.Id == ticket.Id);
+        //        DataAccess.Entities.Comments newEntity = Mapper.MapComments(comment);
+        //        ticketEntity.Comments.Add(newEntity);
   
-                //ticket.Comments.Add(comment);
-            }
-            else
-            {
-                var entity = Mapper.MapComments(comment);
+        //        //ticket.Comments.Add(comment);
+        //    }
+        //    else
+        //    {
+        //        var entity = Mapper.MapComments(comment);
 
-                entity.Id = 0;
-                _dbContext.Comments.Add(entity);
-            }
+        //        entity.Id = 0;
+        //        _dbContext.Comments.Add(entity);
+        //    }
 
             
-        }
+        //}
 
-        /// <summary>
-        /// Delete a comment by ID.
-        /// </summary>
-        /// <param int="commentId">The ID of the comment</param>
-        public void DeleteComment(int commentId)
-        {
-            _logger.LogInformation("Deleting comment with ID {commentId}", commentId);
-            DataAccess.Entities.Comments entity = _dbContext.Comments.Find(commentId);
-            _dbContext.Comments.Remove(entity);
-        }
+        ///// <summary>
+        ///// Delete a comment by ID.
+        ///// </summary>
+        ///// <param int="commentId">The ID of the comment</param>
+        //public void DeleteComment(int commentId)
+        //{
+        //    _logger.LogInformation("Deleting comment with ID {commentId}", commentId);
+        //    DataAccess.Entities.Comments entity = _dbContext.Comments.Find(commentId);
+        //    _dbContext.Comments.Remove(entity);
+        //}
 
-        /// <summary>
-        /// Get all comments according to ticket Id.
-        /// </summary>
-        /// <param int="ticketId">The ID of the ticket</param>
-        /// <returns>The collection of comments</returns>
-        public IEnumerable<Domain.Models.Comments> GetCommentsByTicketId(int ticketId)
-        {
-            IEnumerable<DataAccess.Entities.Comments> items = _dbContext.Comments
-                .AsNoTracking();
+        ///// <summary>
+        ///// Get all comments according to ticket Id.
+        ///// </summary>
+        ///// <param int="ticketId">The ID of the ticket</param>
+        ///// <returns>The collection of comments</returns>
+        //public IEnumerable<Domain.Models.Comments> GetCommentsByTicketId(int ticketId)
+        //{
+        //    IEnumerable<DataAccess.Entities.Comments> items = _dbContext.Comments
+        //        .AsNoTracking();
 
-            items = items.Where(c => c.TicketId == ticketId).AsEnumerable();
+        //    items = items.Where(c => c.TicketId == ticketId).AsEnumerable();
 
-            return items.Select(Mapper.MapComments);
-        }
+        //    return items.Select(Mapper.MapComments);
+        //}
 
-        /// <summary>
-        /// Get all comments according to administrator Id.
-        /// </summary>
-        /// <param int="adminId">The ID of the administrator</param>
-        /// <returns>The collection of comments</returns>
-        public IEnumerable<Domain.Models.Comments> GetCommentsByAdminId(int adminId)
-        {
-            IEnumerable<DataAccess.Entities.Comments> items = _dbContext.Comments
-                .AsNoTracking();
+        ///// <summary>
+        ///// Get all comments according to administrator Id.
+        ///// </summary>
+        ///// <param int="adminId">The ID of the administrator</param>
+        ///// <returns>The collection of comments</returns>
+        //public IEnumerable<Domain.Models.Comments> GetCommentsByAdminId(int adminId)
+        //{
+        //    IEnumerable<DataAccess.Entities.Comments> items = _dbContext.Comments
+        //        .AsNoTracking();
 
-            items = items.Where(c => c.AdminId == adminId).AsEnumerable();
+        //    items = items.Where(c => c.AdminId == adminId).AsEnumerable();
 
-            return items.Select(Mapper.MapComments);
-        }
+        //    return items.Select(Mapper.MapComments);
+        //}
 
         /// <summary>
         /// Persist changes to the data source.

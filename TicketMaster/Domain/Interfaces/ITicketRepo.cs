@@ -196,32 +196,32 @@ namespace Domain.Interfaces
         /// <returns>The store</returns>
         Task<Stores> GetStoreByIdAsync(int storeId);
 
-        /// <summary>
-        /// Add a comment to an existing ticket, and associate it with a administrator.
-        /// </summary>
-        /// <param name="comment">The comment</param>
-        /// <param int="ticketId">The if of the ticket</param>
-        void AddComment(Comments comment, Tickets ticket);
+        ///// <summary>
+        ///// Add a comment to an existing ticket, and associate it with a administrator.
+        ///// </summary>
+        ///// <param name="comment">The comment</param>
+        ///// <param int="ticketId">The if of the ticket</param>
+        //void AddComment(Comments comment, Tickets ticket);
 
-        /// <summary>
-        /// Delete a comment by ID.
-        /// </summary>
-        /// <param int="commentId">The ID of the comment</param>
-        void DeleteComment(int commentId);
+        ///// <summary>
+        ///// Delete a comment by ID.
+        ///// </summary>
+        ///// <param int="commentId">The ID of the comment</param>
+        //void DeleteComment(int commentId);
 
-        /// <summary>
-        /// Get all comments according to ticket Id.
-        /// </summary>
-        /// <param int="ticketId">The ID of the ticket</param>
-        /// <returns>The collection of comments</returns>
-        IEnumerable<Comments> GetCommentsByTicketId(int ticketId);
+        ///// <summary>
+        ///// Get all comments according to ticket Id.
+        ///// </summary>
+        ///// <param int="ticketId">The ID of the ticket</param>
+        ///// <returns>The collection of comments</returns>
+        //IEnumerable<Comments> GetCommentsByTicketId(int ticketId);
 
-        /// <summary>
-        /// Get all comments according to administrator Id.
-        /// </summary>
-        /// <param int="adminId">The ID of the administrator</param>
-        /// <returns>The collection of comments</returns>
-        IEnumerable<Comments> GetCommentsByAdminId(int adminId);
+        ///// <summary>
+        ///// Get all comments according to administrator Id.
+        ///// </summary>
+        ///// <param int="adminId">The ID of the administrator</param>
+        ///// <returns>The collection of comments</returns>
+        //IEnumerable<Comments> GetCommentsByAdminId(int adminId);
 
         /// <summary>
         /// Persist changes to the data source.

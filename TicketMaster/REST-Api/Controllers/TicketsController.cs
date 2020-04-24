@@ -28,9 +28,15 @@ namespace REST_Api.Controllers
         public async Task<IActionResult> GetAsync([FromQuery]string search = null)
         {
             IEnumerable<Domain.Models.Tickets> tickets = await _repo.GetTicketsAsync(search);
-
-            IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
-            return Ok(resource);
+            if (tickets.Count() == 0)
+            {
+                return NotFound("Search returned no results.");
+            }
+            else
+            {
+                IEnumerable<Tickets> resource = tickets.Select(Mapper.MapTickets);
+                return Ok(resource);
+            }
         }
 
         // GET: api/tickets/string
@@ -252,15 +258,8 @@ namespace REST_Api.Controllers
             if (await _repo.GetTicketByIdAsync(id) is Domain.Models.Tickets t)
             {
                 _repo.DeleteTicketAsync(id);
-                if (await _repo.GetTicketByIdAsync(id) is Domain.Models.Tickets tick)
-                {
-                    return StatusCode(500, "Uknown error, ticket not deleted.");
-                }
-                else if (await _repo.GetTicketByIdAsync(id) is null)
-                {
-                    await _repo.SaveAsync();
-                    return Ok("Ticket removed.");
-                }
+                await _repo.SaveAsync();
+                return Ok("Ticket removed.");
             }
             return NotFound("Ticket doesn't exist");
         }
