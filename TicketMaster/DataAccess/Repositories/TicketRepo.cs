@@ -351,6 +351,29 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
+        /// Reassign a ticket to a different admin.
+        /// </summary>
+        /// <param int="ticketId">The id of the ticket to change</param>
+        /// <param int="adminId">The id of the admin</param>
+        /// <returns>The reassigned ticket</returns>
+        public async Task<Domain.Models.Tickets> ReassignTicketAsync(int ticketId, int adminId)
+        {
+            _logger.LogInformation("Updating ticket with ID {ticketId}", ticketId);
+
+            Entities.Tickets currentEntity = await _dbContext.Tickets.FindAsync(ticketId);
+            var newEntity = currentEntity;
+
+            Entities.Admins admin = await _dbContext.Admins.FindAsync(adminId);
+
+            newEntity.DatetimeModified = DateTime.Now;
+            newEntity.AdminId = adminId;
+            newEntity.AdminAssignedName = admin.FirstName +" "+ admin.LastName;
+
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+            return Mapper.MapTickets(newEntity);
+        }
+
+        /// <summary>
         /// Delete a ticket by ID.
         /// </summary>
         /// <param int="ticketId">The ID of the ticket</param>

@@ -132,6 +132,15 @@ namespace Domain.Interfaces
         /// <param int="id">The id of the ticket to close</param>
         void CloseTicketAsync(int id);
 
+
+        /// <summary>
+        /// Reassign a ticket to a different admin.
+        /// </summary>
+        /// <param int="ticketId">The id of the ticket to change</param>
+        /// <param int="adminId">The id of the admin</param>
+        /// <returns>The reassigned ticket</returns>
+        Task<Domain.Models.Tickets> ReassignTicketAsync(int ticketId, int adminId);
+
         /// <summary>
         /// Delete a ticket by ID.
         /// </summary>

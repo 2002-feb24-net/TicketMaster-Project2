@@ -38,7 +38,7 @@ namespace REST_Api.Controllers
         [ProducesResponseType(typeof(Users), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetbyIdAsync(int id)
+        public async Task<IActionResult> GetByIdAsync(int id)
         {
             if (await _repo.GetUserByIdAsync(id) is Domain.Models.Users user)
             {

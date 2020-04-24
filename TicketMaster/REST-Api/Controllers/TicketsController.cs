@@ -216,6 +216,32 @@ namespace REST_Api.Controllers
         }
 
 
+        // PUT: api/Users/5
+        [HttpPut("{ticketId},{adminId}")]
+        [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutToReassignTicketAsync(int ticketId, int adminId)
+        {
+            if (await _repo.GetTicketByIdAsync(ticketId) is Domain.Models.Tickets 
+                && await _repo.GetAdminByIdAsync(adminId) is Domain.Models.Admins )
+            {
+
+               var newEntity = await _repo.ReassignTicketAsync(ticketId, adminId);
+                await _repo.SaveAsync();
+                //var newEntity = await _repo.GetTicketByIdAsync(ticketId);
+                return Ok(newEntity);
+            }
+            else if (await _repo.GetTicketByIdAsync(ticketId) is null)
+            {
+                return NotFound("Ticket id does not exist");
+            }
+            else
+                return NotFound("Admin id does not exist");
+        }
+
+
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]

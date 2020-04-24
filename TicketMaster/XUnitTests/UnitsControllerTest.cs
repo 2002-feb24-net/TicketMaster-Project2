@@ -10,32 +10,50 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using DataAccess.Repositories;
+using Moq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace XUnitTests
 {
     public class UsersControllerTest
     {
-        //private readonly ITicketRepo _repo;
-        //private readonly UsersController _user;
+        private readonly UsersController _controller;
+        private readonly ILogger<UsersControllerTest> _logger;
+        public UsersControllerTest(ILogger<UsersControllerTest> logger)
+        {
+            //Arrange
+            var mockRepo = new Mock<ITicketRepo>();
+            var user = new Domain.Models.Users
+            {
+                Id = 1,
+                FirstName = "Test",
+                LastName = "User",
+                Email = "testemail@email.com",
+                Password = "password",
+            }; 
+            mockRepo.Setup(repo => repo.GetUserByIdAsync(user.Id))
+            .ReturnsAsync(user);
+            _controller = new UsersController(mockRepo.Object);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
 
-        //public UserTests(ITicketRepo repo, UsersController user)
-        //{
-        //    _repo = repo;
-        //    _user = user;
-        //}
 
-        //[Fact]
-        //public void Test1()
-        //{            
-        //    // Define a test input and output value:
-        //    //var expectedResult = new IEnumerable<Domain.Models.Users>;
+        [Fact]
+        public async void Test1()
+        {
             
-        //    //string input = "stewart";
-        //    // Run the method under test:
-        //    //var actualResult = _user.GetAsync();
-        //    // Verify the result:
-        //    //Assert.NotNull(actualResult);    
-        //}
+            var result1 = await _controller.GetByIdAsync(1);
+            Assert.IsType<OkObjectResult>(result1);
+
+            var result2 = await _controller.GetByIdAsync(2);
+            Assert.IsType<NotFoundObjectResult>(result2);
+
+            //Verify the result:
+            //Assert.NotNull(actualResult);
+        }
 
         //[Fact]
         //public void Test2()
@@ -50,8 +68,8 @@ namespace XUnitTests
         //    //Assert.NotNull(actualResult);
         //}
 
-       
-        
+
+
         //[Fact]
         //public void Add_writes_to_database()
         //{
@@ -144,7 +162,7 @@ namespace XUnitTests
         //        connection.Close();
         //    }
         //}
-        
+
     }
 
 }
