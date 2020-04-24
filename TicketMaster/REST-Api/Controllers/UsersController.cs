@@ -103,7 +103,25 @@ namespace REST_Api.Controllers
             return NotFound("User doesn't exist");
         }
 
-        // DELETE: api/ApiWithActions/5
+        // PUT: api/Users/int,string
+        [HttpPut("{userId},{password}")]
+        [ProducesResponseType(typeof(Users), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutToChangePasswordAsync(int userId, string password)
+        {
+            if (await _repo.GetUserByIdAsync(userId) is Domain.Models.Users)
+            {
+                var newEntity = await _repo.UpdateUserPasswordAsync(userId, password);
+                await _repo.SaveAsync();
+                return Ok(newEntity);
+            }
+            else
+                return NotFound("User id does not exist");
+        }
+
+        // DELETE: api/users/int
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

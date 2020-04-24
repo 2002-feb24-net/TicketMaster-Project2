@@ -46,7 +46,7 @@ namespace REST_Api.Controllers
         //}
 
 
-        // GET: api/Users/string,int
+        // GET: api/tickets/string,int
         [HttpGet("{searchType},{id}")]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -157,7 +157,7 @@ namespace REST_Api.Controllers
         }
 
 
-        // POST: api/Users
+        // POST: api/tickets
         [HttpPost]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -177,7 +177,7 @@ namespace REST_Api.Controllers
             }
         }
 
-        // PUT: api/Users/5
+        // PUT: api/tickets/5
         [HttpPut]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -196,7 +196,7 @@ namespace REST_Api.Controllers
             return NotFound("Ticket id doesn't exist");
         }
 
-        // PUT: api/Users/5
+        // PUT: api/tickets/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -216,7 +216,7 @@ namespace REST_Api.Controllers
         }
 
 
-        // PUT: api/Users/5
+        // PUT: api/tickets/5
         [HttpPut("{ticketId},{adminId}")]
         [ProducesResponseType(typeof(Tickets), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -230,7 +230,6 @@ namespace REST_Api.Controllers
 
                var newEntity = await _repo.ReassignTicketAsync(ticketId, adminId);
                 await _repo.SaveAsync();
-                //var newEntity = await _repo.GetTicketByIdAsync(ticketId);
                 return Ok(newEntity);
             }
             else if (await _repo.GetTicketByIdAsync(ticketId) is null)
@@ -242,7 +241,7 @@ namespace REST_Api.Controllers
         }
 
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/tickets/5
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

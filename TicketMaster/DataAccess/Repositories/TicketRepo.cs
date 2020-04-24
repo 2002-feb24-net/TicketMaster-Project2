@@ -95,6 +95,25 @@ namespace DataAccess.Repositories
         }
 
         /// <summary>
+        /// Change password of user.
+        /// </summary>
+        /// <param int="userId">The id of the user to change</param>
+        /// <param string="password">The new password</param>
+        /// <returns>The user with new password</returns>
+        public async Task<Domain.Models.Users> UpdateUserPasswordAsync(int userId, string password)
+        {
+            _logger.LogInformation("Updating user with ID {ticketId} with new password {password}", userId, password);
+
+            Entities.Users currentEntity = await _dbContext.Users.FindAsync(userId);
+            var newEntity = currentEntity;
+
+            newEntity.Password = password;
+
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+            return Mapper.MapUsers(newEntity);
+        }
+
+        /// <summary>
         /// Delete a user by ID. 
         /// </summary>
         /// <param int="userId">The ID of the user</param>
@@ -168,6 +187,25 @@ namespace DataAccess.Repositories
 
             _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
             return admin;
+        }
+
+        /// <summary>
+        /// Change password of admin.
+        /// </summary>
+        /// <param int="adminId">The id of the admin to change</param>
+        /// <param string="password">The new password</param>
+        /// <returns>The admin with new password</returns>
+        public async Task<Domain.Models.Admins> UpdateAdminPasswordAsync(int adminId, string password)
+        {
+            _logger.LogInformation("Updating admin with ID {ticketId} with new password {password}", adminId, password);
+
+            Entities.Admins currentEntity = await _dbContext.Admins.FindAsync(adminId);
+            var newEntity = currentEntity;
+
+            newEntity.Password = password;
+
+            _dbContext.Entry(currentEntity).CurrentValues.SetValues(newEntity);
+            return Mapper.MapAdmins(newEntity);
         }
 
         /// <summary>

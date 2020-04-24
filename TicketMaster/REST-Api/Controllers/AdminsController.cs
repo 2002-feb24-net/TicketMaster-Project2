@@ -20,7 +20,7 @@ namespace REST_Api.Controllers
             _repo = repo;
         }
 
-        // GET: api/Users
+        // GET: api/admins
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Admins>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -32,7 +32,7 @@ namespace REST_Api.Controllers
             return Ok(resource);
         }
 
-        // GET: api/Users/5
+        // GET: api/admins/5
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -47,7 +47,7 @@ namespace REST_Api.Controllers
             return NotFound("Admin doesn't exist");
         }
 
-        // GET: api/Users/string
+        // GET: api/admins/string
         [HttpGet("{email},{password}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -62,7 +62,7 @@ namespace REST_Api.Controllers
             return NotFound("Incorrect email/password. Please try again.");
         }
 
-        // POST: api/Users
+        // POST: api/admins
         [HttpPost]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -83,7 +83,7 @@ namespace REST_Api.Controllers
             }
         }
 
-        // PUT: api/Users/5
+        // PUT: api/admins/5
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -102,7 +102,25 @@ namespace REST_Api.Controllers
             return NotFound("Admin doesn't exist");
         }
 
-        // DELETE: api/ApiWithActions/5
+        // PUT: api/admins/int,string
+        [HttpPut("{adminId},{password}")]
+        [ProducesResponseType(typeof(Admins), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> PutToChangePasswordAsync(int adminId, string password)
+        {
+            if (await _repo.GetAdminByIdAsync(adminId) is Domain.Models.Admins)
+            {
+                var newEntity = await _repo.UpdateAdminPasswordAsync(adminId, password);
+                await _repo.SaveAsync();
+                return Ok(newEntity);
+            }
+            else
+                return NotFound("Admin id does not exist");
+        }
+
+        // DELETE: api/admins/5
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(Admins), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]

@@ -36,6 +36,14 @@ namespace Domain.Interfaces
         Task<Domain.Models.Users> UpdateUserAsync(int id, Users user);
 
         /// <summary>
+        /// Change password of user.
+        /// </summary>
+        /// <param int="userId">The id of the user to change</param>
+        /// <param string="password">The new password</param>
+        /// <returns>The user with new password</returns>
+        Task<Users> UpdateUserPasswordAsync(int userId, string password);
+
+        /// <summary>
         /// Delete a user by ID. 
         /// </summary>
         /// <param int="userId">The ID of the user</param>
@@ -64,6 +72,14 @@ namespace Domain.Interfaces
         /// </summary>
         /// <param name="admin">The administrator with changed values</param>
         Task<Admins> UpdateAdminAsync(int adminId, Admins admin);
+
+        /// <summary>
+        /// Change password of admin.
+        /// </summary>
+        /// <param int="adminId">The id of the admin to change</param>
+        /// <param string="password">The new password</param>
+        /// <returns>The admin with new password</returns>
+        Task<Admins> UpdateAdminPasswordAsync(int adminId, string password);
 
         /// <summary>
         /// Delete a administrator by ID.
